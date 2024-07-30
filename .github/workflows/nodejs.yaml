@@ -1,10 +1,12 @@
-name: Node.js CI
+name: NodeJS workflow
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -15,3 +17,5 @@ jobs:
           node-version: '14.x'
       - run: npm install
       - run: npm test
+
+      
