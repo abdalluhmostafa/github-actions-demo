@@ -1,32 +1,21 @@
 {
-  "name": "simple-nodejs-app",
-  "version": "1.0.0",
-  "description": "Research about a person",
+  "name": "dummy-nodejs-todo",
+  "version": "0.1.1",
+  "description": "A simple to do server",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "mocha 'test/test.js'"
+    "start": "node src/index.js",
+    "test": "jest src/index.test.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rat9615/simple-nodejs-app.git"
-  },
-  "author": "Rohan R",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/rat9615/simple-nodejs-app/issues"
-  },
-  "homepage": "https://github.com/rat9615/simple-nodejs-app#readme",
+  "author": "Devenes",
+  "license": "MIT",
   "dependencies": {
-    "ejs": "^3.1.10",
-    "express": "^4.17.3",
-    "node-fetch": "^2.6.7",
-    "nodemon": "^2.0.20",
-    "request": "^2.88.2",
-    "wiki-infobox-parser": "^0.1.11"
+    "body-parser": "^1.18.0",
+    "ejs": "^2.5.7",
+    "express": "^4.15.4",
+    "supertest": "^6.2.3"
   },
   "devDependencies": {
-    "chai": "^5.1.1",
-    "mocha": "^9.1.3"
+    "jest": "^28.0.2"
   }
 }
