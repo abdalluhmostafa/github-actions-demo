@@ -26,6 +26,7 @@
     "wiki-infobox-parser": "^0.1.11"
   },
   "devDependencies": {
+    "chai": "^5.1.1",
     "mocha": "^9.1.3"
   }
 }
