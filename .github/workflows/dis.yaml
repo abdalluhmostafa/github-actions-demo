@@ -14,10 +14,11 @@ on:
         description: 'Test scenario tags'
         required: false
         type: boolean
+
       environment:
-        description: 'Environment to run tests against'
-        type: environment
+        description: "Environment to run tests against"
         required: true
+        default: ""
 
 jobs:
   log-the-inputs:
