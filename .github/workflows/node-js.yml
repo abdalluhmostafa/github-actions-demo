@@ -49,16 +49,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     push: true
-      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-node-js:${{github.run_number}}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-image:${{github.run_number}}
       
-      - name: Build docker image
-        run: |-
-          docker build -t abdalluhm/mynodejs:latest .
+      # - name: Build docker image
+      #   run: |-
+      #     docker build -t abdalluhm/mynodejs:latest .
 
-      - name: Publish docker image
-        run: |-
-          docker push abdalluhm/mynodejs:latest
+      # - name: Publish docker image
+      #   run: |-
+      #     docker push abdalluhm/mynodejs:latest
