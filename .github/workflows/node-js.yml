@@ -55,7 +55,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-image:${{github.run_number}}
       
-      # - name: Build docker image
+      # - name: Build docker imagedfiovgu
       #   run: |-
       #     docker build -t abdalluhm/mynodejs:latest .
 
