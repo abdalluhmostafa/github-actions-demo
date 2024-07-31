@@ -1,3 +1,5 @@
+name: Manual workflow
+
 on:
   workflow_dispatch:
     inputs:
@@ -7,28 +9,25 @@ on:
         default: 'warning'
         type: choice
         options:
-        - info
-        - warning
-        - debug
+          - info
+          - warning
+          - debug
       tags:
         description: 'Test scenario tags'
         required: false
         type: boolean
-
       environment:
         description: "Environment to run tests against"
         required: true
         default: ""
+
+
 
 jobs:
   log-the-inputs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Log level: $LEVEL"
-          echo "Tags: $TAGS"
-          echo "Environment: $ENVIRONMENT"
-        env:
-          LEVEL: ${{ inputs.logLevel }}
-          TAGS: ${{ inputs.tags }}
-          ENVIRONMENT: ${{ inputs.environment }}
+          echo "Log level:  ${{ inputs.logLevel }} "
+          echo "Tags: ${{ inputs.tags }} "
+          echo "Environment: ${{ inputs.environment }} "
