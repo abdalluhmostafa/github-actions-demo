@@ -54,6 +54,6 @@ jobs:
         run: echo " trueeeeeee"
 
       - name: Installing  Chart tag1
-        if: inputs.tags == 'true'
+        if: inputs.tags1 == 'true'
         run: echo " trueeeeeee tag1"
 
