@@ -3,15 +3,10 @@ name: Manual workflow
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
+      welcome-message:
+        description: 'Please select the tags you need'
         required: true
-        default: 'warning'
-        type: choice
-        options:
-          - info
-          - warning
-          - debug
+        type: string
       tags:
         description: 'Test scenario tags'
         required: false
