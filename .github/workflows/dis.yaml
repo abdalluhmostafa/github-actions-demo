@@ -2,11 +2,10 @@ name: Manual workflow
 
 on:
   workflow_dispatch:
+    outputs:
+      workflow_output1:
+        description: "Please select the tags you need"
     inputs:
-      welcome-message:
-        description: 'Please select the tags you need'
-        required: true
-        type: string
       tags:
         description: 'Test scenario tags'
         required: false
