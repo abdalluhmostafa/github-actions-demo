@@ -5,6 +5,7 @@ on:
     outputs:
       workflow_output1:
         description: "Please select the tags you need"
+        value: "Please select the tags you need"
     inputs:
       tags:
         description: 'Test scenario tags'
