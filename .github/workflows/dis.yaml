@@ -48,3 +48,12 @@ jobs:
           echo "Tags: ${{ inputs.tags4 }} "
 
           echo "Environment: ${{ inputs.environment }} "
+
+      - name: Installing  Chart tag
+        if: inputs.tags == 'true'
+        run: echo " trueeeeeee"
+
+      - name: Installing  Chart tag1
+        if: inputs.tags == 'true'
+        run: echo " trueeeeeee tag1"
+
