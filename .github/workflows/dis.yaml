@@ -50,10 +50,10 @@ jobs:
           echo "Environment: ${{ inputs.environment }} "
 
       - name: Installing  Chart tag
-        if: inputs.tags == 'true'
+        if: ${{ inputs.tags == true }}
         run: echo " trueeeeeee"
 
       - name: Installing  Chart tag1
-        if: inputs.tags1 == 'true'
+        if: ${{ inputs.tags1 == true }}
         run: echo " trueeeeeee tag1"
 
