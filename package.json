@@ -1,7 +1,7 @@
 {
   "name": "dummy-nodejs-todo",
   "version": "0.1.1",
-  "description": "A simple to do server",
+  "description": "A simple to do demo",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
