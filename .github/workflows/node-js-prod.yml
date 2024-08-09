@@ -2,8 +2,7 @@ name: Node.js prod
 
 on:
   push:
-    branches:
-      - main
+
 
 
 jobs:
@@ -52,7 +51,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-image:${{github.sha}}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apptest:${{github.sha}}
       
       # - name: Build docker imagedfiovgu
       #   run: |-
