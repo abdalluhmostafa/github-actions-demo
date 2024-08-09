@@ -81,15 +81,12 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
+      - name: Deploy Helm chart
+        working-directory: ./helm
+        run: |
+          helm upgrade --install evershop . \
+            --namespace evershop-namespace \
+            --create-namespace
 
-      # - name: Deploy using Helm
-      #   run: helm upgrade --install my-release ./helm-chart --namespace my-namespace
-
-      # - name: Install kubectl
-      #   run: |
-      #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-      #     chmod +x kubectl
-      #     sudo mv kubectl /usr/local/bin/
-
-      - name: get pod 
-        run: kubectl get ns
+      - name: Get pods status
+        run: kubectl get pods --namespace evershop-namespace
