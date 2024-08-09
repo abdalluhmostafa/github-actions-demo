@@ -143,3 +143,15 @@ app.post("/removetask", isAuthenticated, async (req, res) => {
 app.listen(port, () => {
     console.log("server is running on port http://localhost:" + port);
 });
+
+// Sign Out route
+app.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Error signing out', err);
+            res.redirect('/');
+        } else {
+            res.redirect('/login');
+        }
+    });
+});

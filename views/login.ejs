@@ -1,17 +1,47 @@
 <html>
+
 <head>
-    <title>Login</title>
+    <title> To Do App </title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet">
     <link href="/styles.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container">
-        <h2>Login</h2>
-        <form action="/login" method="POST">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+        <h2> A Simple To-Do List App </h2>
+        
+        <form action="/logout" method="POST">
+            <button type="submit" class="button">Sign Out</button>
         </form>
-        <a href="/signup">Sign Up</a>
+
+        <form action="/addtask" method="POST">
+            <input type="text" name="newtask" placeholder="Add new task">
+            <button type="submit">Add Task</button>
+        </form>
+
+        <h2>Added Task</h2>
+        <form action="/removetask" method="POST">
+            <ul>
+                <% for (var i = 0; i < task.length; i++) { %>
+                    <li>
+                        <input type="checkbox" name="check" value="<%= task[i].task %>" />
+                        <%= task[i].task %>
+                    </li>
+                <% } %>
+            </ul>
+            <button formaction="/removetask" type="submit" id="top" class="button">Remove</button>
+        </form>
+
+        <h2>Completed Task</h2>
+        <ul>
+            <% for (var i = 0; i < complete.length; i++) { %>
+                <li>
+                    <input type="checkbox" checked />
+                    <%= complete[i].task %>
+                </li>
+            <% } %>
+        </ul>
     </div>
 </body>
+
 </html>
