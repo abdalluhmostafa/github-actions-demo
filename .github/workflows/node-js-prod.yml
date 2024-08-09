@@ -62,6 +62,10 @@ jobs:
       id-token: 'write'
 
     steps:
+
+      - name: Check out code
+        uses: actions/checkout@v3
+
       - name: Auth GCP using workload identity
         uses: "google-github-actions/auth@v1"
         with:
