@@ -77,9 +77,6 @@ jobs:
           cluster_name: 'prod-cluster'
           location: 'us-central1-c'
 
-      - name: Check out code
-        uses: actions/checkout@v3
-
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
