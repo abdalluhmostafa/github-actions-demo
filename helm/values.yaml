@@ -4,10 +4,10 @@ evershop:
     tag: latest
   resources:
     requests:
-      memory: "150Mi"
+      memory: "300Mi"
       cpu: "150m"
     limits:
-      memory: "150Mi"
+      memory: "300Mi"
       cpu: "150m"
   service:
     port: 80
