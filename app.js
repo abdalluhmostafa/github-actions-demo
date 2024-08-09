@@ -15,6 +15,28 @@ const pool = new Pool({
   port: process.env.DB_PORT || 5432,
 });
 
+// Function to initialize the database schema
+async function initializeDatabase() {
+  const client = await pool.connect();
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(255) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL
+      );
+    `);
+    console.log('Database initialized.');
+  } catch (err) {
+    console.error('Error initializing database:', err);
+  } finally {
+    client.release();
+  }
+}
+
+// Initialize the database
+initializeDatabase();
+
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
