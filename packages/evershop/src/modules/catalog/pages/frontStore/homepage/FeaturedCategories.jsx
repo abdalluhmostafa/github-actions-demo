@@ -23,7 +23,7 @@ export default function FeaturedCategories() {
           <div>
             <img src="/assets/homepage/banner/women-shoes.jpeg" alt="" />
           </div>
-          <h3 className="h4 uppercase mt-4 mb-4">Women shoes collection</h3>
+          <h3 className="h4 uppercase mt-4 mb-4">Women aaaa shoes collection</h3>
           <div className="mb-4">
             <p>
               Constructed from luxury nylons, leathers, and custom hardware,
