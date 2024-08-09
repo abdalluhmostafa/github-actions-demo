@@ -1,10 +1,12 @@
 const express = require('express');
 const { Pool } = require('pg');
+const session = require('express-session');
+const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
 
-// Setup the PostgreSQL client
 const pool = new Pool({
   user: process.env.DB_USER || 'postgres',
   host: process.env.DB_HOST || 'localhost',
@@ -13,20 +15,70 @@ const pool = new Pool({
   port: process.env.DB_PORT || 5432,
 });
 
-// Simple query to verify the connection
-app.get('/', async (req, res) => {
-  try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT NOW()');
-    client.release();
-    res.send(`<h1>Connected to PostgreSQL!</h1><p>Server Time: ${result.rows[0].now}</p>`);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Failed to connect to the database.');
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+  secret: 'secret-key',
+  resave: false,
+  saveUninitialized: false,
+}));
+
+app.get('/', (req, res) => {
+  if (req.session.user) {
+    res.render('welcome', { user: req.session.user });
+  } else {
+    res.redirect('/login');
   }
 });
 
-// Start the server
+app.get('/register', (req, res) => {
+  res.render('register');
+});
+
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    const result = await pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id', [username, hashedPassword]);
+    req.session.user = { id: result.rows[0].id, username };
+    res.redirect('/');
+  } catch (err) {
+    console.error(err);
+    res.redirect('/register');
+  }
+});
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
+      const match = await bcrypt.compare(password, user.password);
+      if (match) {
+        req.session.user = { id: user.id, username: user.username };
+        res.redirect('/');
+      } else {
+        res.redirect('/login');
+      }
+    } else {
+      res.redirect('/login');
+    }
+  } catch (err) {
+    console.error(err);
+    res.redirect('/login');
+  }
+});
+
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/login');
+});
+
 app.listen(port, () => {
   console.log(`App running on http://localhost:${port}`);
 });
