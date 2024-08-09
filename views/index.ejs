@@ -1,44 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Simple To-Do List App</title>
-    <link rel="stylesheet" href="/styles.css">
+    <title>To-Do List</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet">
 </head>
+
 <body>
-    <h1>A Simple To-Do List App</h1>
+    <div class="container">
+        <h2>A Simple To-Do List App</h2>
+        <form action="/addtask" method="POST">
+            <input type="text" name="newtask" placeholder="Add new task">
+            <button class="button">Add Task</button>
 
-    <form action="/addtask" method="POST">
-        <input type="text" name="newtask" placeholder="Add new task">
-        <button type="submit">Add Task</button>
-    </form>
+            <h2>Added Task</h2>
+            <ul>
+                <% for (var i = 0; i < task.length; i++) { %>
+                    <li>
+                        <input type="checkbox" name="check" value="<%= task[i].task %>" />
+                        <%= task[i].task %>
+                    </li>
+                <% } %>
+            </ul>
+            <button formaction="/removetask" type="submit" id="top" class="button">Remove</button>
+        </form>
 
-    <h2>Added Tasks</h2>
-    <ul>
-        <% task.forEach(function(task) { %>
-            <li><%= task.task %></li>
-        <% }) %>
-    </ul>
-
-    <form action="/removetask" method="POST">
-        <h2>Remove Task</h2>
+        <h2>Completed Task</h2>
         <ul>
-            <% task.forEach(function(task) { %>
+            <% for (var i = 0; i < complete.length; i++) { %>
                 <li>
-                    <input type="checkbox" name="check" value="<%= task.task %>">
-                    <%= task.task %>
+                    <input type="checkbox" checked />
+                    <%= complete[i].task %>
                 </li>
-            <% }) %>
+            <% } %>
         </ul>
-        <button type="submit">Remove</button>
-    </form>
-
-    <h2>Completed Tasks</h2>
-    <ul>
-        <% complete.forEach(function(task) { %>
-            <li><%= task.task %></li>
-        <% }) %>
-    </ul>
+        
+        <a href="/logout" class="button">Sign Out</a>
+    </div>
 </body>
+
 </html>
