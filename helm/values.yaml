@@ -13,7 +13,7 @@ evershop:
     port: 80
     targetPort: 3000
   db:
-    host: postgresql-service
+    host: evershop-postgresql-service
     port: 5432
     name: postgres
     user: postgres
