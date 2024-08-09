@@ -1,0 +1,4 @@
+apiVersion: v2
+name: evershop-chart
+description: A Helm chart for Evershop application and PostgreSQL
+version: 0.1.0

@@ -1,0 +1,41 @@
+evershop:
+  image:
+    repository: evershop/evershop
+    tag: latest
+  resources:
+    requests:
+      memory: "150Mi"
+      cpu: "150m"
+    limits:
+      memory: "150Mi"
+      cpu: "150m"
+  service:
+    port: 80
+    targetPort: 3000
+  db:
+    host: postgresql-service
+    port: 5432
+    name: postgres
+    user: postgres
+    password: postgres
+  hpa:
+    minReplicas: 1
+    maxReplicas: 10
+
+postgresql:
+  image:
+    repository: postgres
+    tag: "16"
+  resources:
+    requests:
+      memory: "100Mi"
+      cpu: "100m"
+    limits:
+      memory: "100Mi"
+      cpu: "100m"
+  service:
+    port: 5432
+  db:
+    name: postgres
+    user: postgres
+    password: postgres
