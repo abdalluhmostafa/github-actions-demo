@@ -86,6 +86,8 @@ jobs:
         run: |
           helm upgrade --install evershop . \
             --namespace evershop-namespace \
+            --set image.repository=${{ secrets.DOCKERHUB_USERNAME }}/demo-image \
+            --set image.tag=${{ github.sha }}
             --create-namespace
 
       - name: Get pods status
