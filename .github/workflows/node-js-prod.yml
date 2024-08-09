@@ -2,8 +2,7 @@ name: Node.js prod
 
 on:
   push:
-    branches:
-      - main
+
 
 
 jobs:
@@ -34,7 +33,7 @@ jobs:
 
   build-and-push:
     runs-on: ubuntu-latest
-    #needs: testing
+    needs: testing
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -53,11 +52,43 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-image:${{github.sha}}
-      
-      # - name: Build docker imagedfiovgu
-      #   run: |-
-      #     docker build -t abdalluhm/mynodejs:latest .
 
-      # - name: Publish docker image
-      #   run: |-
-      #     docker push abdalluhm/mynodejs:latest
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Auth GCP using workload identity
+        uses: "google-github-actions/auth@v1"
+        with:
+          workload_identity_provider: "projects/70899643201/locations/global/workloadIdentityPools/github-actions/providers/github-actions"
+          service_account: "github-actions@devops-431916.iam.gserviceaccount.com"
+      - id: 'get-credentials'
+        uses: 'google-github-actions/get-gke-credentials@v2'
+        with:
+          cluster_name: 'prod-cluster'
+          location: 'us-central1-c'
+
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+
+      # - name: Deploy using Helm
+      #   run: helm upgrade --install my-release ./helm-chart --namespace my-namespace
+
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      - name: get pod 
+        run: kubectl get pod
