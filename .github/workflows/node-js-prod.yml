@@ -85,8 +85,8 @@ jobs:
         working-directory: ./helm
         run: |
           helm upgrade --install evershop . \
-            --set image.repository=${{ secrets.DOCKERHUB_USERNAME }}/demo-image \
-            --set image.tag=${{ github.sha }} \
+            --set evershop.image.repository=${{ secrets.DOCKERHUB_USERNAME }}/demo-image \
+            --set evershop.image.tag=${{ github.sha }} \
             --namespace evershop-namespace \
             --create-namespace
 
