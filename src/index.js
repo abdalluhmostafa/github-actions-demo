@@ -2,66 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const session = require('express-session');
 const bcrypt = require('bcrypt');
-const { Pool } = require("pg");
+const pool = require('./db');
 const morgan = require('morgan');
 
 const app = express();
 const port = process.env.PORT || 3000;
-
-// Environment variables for DB connection
-const dbConfig = {
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5432,
-    database: process.env.DB_NAME || 'todoapp',
-    user: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || 'password'
-};
-
-// Database connection setup
-const pool = new Pool(dbConfig);
-
-pool.connect(async (err, client, release) => {
-    if (err) {
-        console.error('Error acquiring client', err.stack);
-        app.get("/", (req, res) => {
-            res.send("Database connection failed");
-        });
-    } else {
-        console.log('Connected to the database');
-        app.get("/", (req, res) => {
-            res.send("Connected to the database");
-        });
-
-        // Automatically create schema if it doesn't exist
-        const createTableQuery = `
-            CREATE TABLE IF NOT EXISTS users (
-                id SERIAL PRIMARY KEY,
-                username TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL
-            );
-            CREATE TABLE IF NOT EXISTS tasks (
-                id SERIAL PRIMARY KEY,
-                user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-                task TEXT NOT NULL,
-                completed BOOLEAN DEFAULT false
-            );
-            CREATE TABLE IF NOT EXISTS completed_tasks (
-                id SERIAL PRIMARY KEY,
-                user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-                task TEXT NOT NULL
-            );
-        `;
-
-        try {
-            await client.query(createTableQuery);
-            console.log('Schema setup complete');
-        } catch (err) {
-            console.error('Error creating schema', err.stack);
-        } finally {
-            release();
-        }
-    }
-});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -137,7 +82,7 @@ app.post("/removetask", isAuthenticated, async (req, res) => {
         await pool.query('DELETE FROM tasks WHERE user_id = $1 AND task = $2', [userId, completeTask]);
         await pool.query('INSERT INTO completed_tasks (user_id, task) VALUES ($1, $2)', [userId, completeTask]);
     } else if (typeof completeTask === "object") {
-        for (var i = 0; i < completeTask.length; i++) {
+        for (let i = 0; i < completeTask.length; i++) {
             await pool.query('DELETE FROM tasks WHERE user_id = $1 AND task = $2', [userId, completeTask[i]]);
             await pool.query('INSERT INTO completed_tasks (user_id, task) VALUES ($1, $2)', [userId, completeTask[i]]);
         }
@@ -146,5 +91,5 @@ app.post("/removetask", isAuthenticated, async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log("Server is running on port http://localhost:" + port);
+    console.log("server is running on port http://localhost:" + port);
 });
