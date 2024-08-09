@@ -45,6 +45,7 @@ app.use(session({
   saveUninitialized: false,
 }));
 
+// Route for the home page
 app.get('/', (req, res) => {
   if (req.session.user) {
     res.render('welcome', { user: req.session.user });
@@ -53,10 +54,12 @@ app.get('/', (req, res) => {
   }
 });
 
+// Route for the registration page
 app.get('/register', (req, res) => {
   res.render('register');
 });
 
+// Handle user registration
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -70,10 +73,12 @@ app.post('/register', async (req, res) => {
   }
 });
 
+// Route for the login page
 app.get('/login', (req, res) => {
   res.render('login');
 });
 
+// Handle user login
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -96,11 +101,13 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Route for logging out
 app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/login');
 });
 
+// Start the server
 app.listen(port, () => {
   console.log(`App running on http://localhost:${port}`);
 });

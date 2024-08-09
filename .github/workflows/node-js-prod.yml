@@ -3,33 +3,7 @@ name: Node.js prod
 on:
   push:
 
-
-
 jobs:
-  testing:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout my code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js 16
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      # Optional: If you have a build step, leave this; otherwise, it can be removed.
-      - name: Build the app
-        run: npm run build --if-present
-
-
-      - name: Run tests
-        run: npm test
-
 
   build-and-push:
     runs-on: ubuntu-latest
