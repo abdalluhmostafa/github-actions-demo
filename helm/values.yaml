@@ -29,10 +29,10 @@ postgresql:
   resources:
     requests:
       memory: "100Mi"
-      cpu: "100m"
+      cpu: "150m"
     limits:
       memory: "100Mi"
-      cpu: "100m"
+      cpu: "200m"
   service:
     port: 5432
   db:
