@@ -51,7 +51,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apptest:${{github.sha}}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apptest:latest
       
       # - name: Build docker imagedfiovgu
       #   run: |-
