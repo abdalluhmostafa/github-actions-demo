@@ -7,17 +7,23 @@ body {
     background: rgb(0, 0, 0);
     color: #00ffb1;
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .container {
     display: block;
     width: 400px;
     margin: 0 auto;
+    text-align: center; /* Center text inside the container */
 }
 
 ul {
     margin: 0;
     padding: 0;
+    list-style-type: none; /* Remove default bullet points */
 }
 
 .button {
@@ -28,6 +34,22 @@ ul {
     color: rgb(0, 0, 0);
     font-size: 20px;
     text-align: center;
-    line-height: 10px;
+    line-height: 30px; /* Adjust line height to center text */
     cursor: pointer;
+    border: none;
+    margin: 10px auto; /* Center button */
+}
+
+button[type="submit"] {
+    display: block;
+    width: 50%;
+    height: 30px;
+    background: #00ffbf;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    border: none;
+    margin: 10px auto;
 }

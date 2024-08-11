@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-evershop-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-evershop-app
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-evershop-app
+    spec:
+      containers:
+        - name: evershop-app
+          image: "{{ .Values.evershop.image.repository }}:{{ .Values.evershop.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.evershop.service.targetPort }}
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-evershop-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-evershop-config
+                  key: DB_PORT
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-evershop-secrets
+                  key: DB_PASSWORD
+            - name: DB_USER
+              value: {{ .Values.evershop.db.user }}
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-evershop-config
+                  key: DB_NAME
+          resources:
+            requests:
+              memory: {{ .Values.evershop.resources.requests.memory }}
+              cpu: {{ .Values.evershop.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.evershop.resources.limits.memory }}
+              cpu: {{ .Values.evershop.resources.limits.cpu }}
