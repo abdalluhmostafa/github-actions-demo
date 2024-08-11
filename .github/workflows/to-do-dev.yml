@@ -1,8 +1,9 @@
-name: Node.js prod
+name: Deploy To do list app on Dev namespace
 
 on:
   push:
-
+    branches:
+      - dev
 
 
 jobs:
@@ -22,10 +23,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Optional: If you have a build step, leave this; otherwise, it can be removed.
       - name: Build the app
         run: npm run build --if-present
-
 
       - name: Run tests
         run: npm test
@@ -51,7 +50,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-image:${{github.sha}}
+          tags: abdalluhm/todolist:${{github.sha}}
 
   deploy:
     runs-on: ubuntu-latest
@@ -84,11 +83,7 @@ jobs:
       - name: Deploy Helm chart
         working-directory: ./helm
         run: |
-          helm upgrade --install evershop . \
-            --set evershop.image.repository=${{ secrets.DOCKERHUB_USERNAME }}/demo-image \
+          helm upgrade --install todolist . \
             --set evershop.image.tag=${{ github.sha }} \
-            --namespace evershop-namespace \
+            --namespace todolist-dev \
             --create-namespace
-
-      - name: Get pods status
-        run: kubectl get pods --namespace evershop-namespace

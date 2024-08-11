@@ -1,6 +1,6 @@
 evershop:
   image:
-    repository: evershop/evershop
+    repository: abdalluhm/todolist
     tag: latest
   resources:
     requests:
