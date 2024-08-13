@@ -4,11 +4,11 @@ evershop:
     tag: latest
   resources:
     requests:
-      memory: "300Mi"
-      cpu: "150m"
+      memory: "50Mi"
+      cpu: "50m"
     limits:
-      memory: "300Mi"
-      cpu: "150m"
+      memory: "50Mi"
+      cpu: "50m"
   service:
     port: 80
     targetPort: 3000
@@ -20,7 +20,7 @@ evershop:
     password: postgres
   hpa:
     minReplicas: 1
-    maxReplicas: 10
+    maxReplicas: 3
 
 postgresql:
   image:
