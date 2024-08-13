@@ -58,7 +58,10 @@ function isAuthenticated(req, res, next) {
 
 // Redirect root to /home
 app.get('/', (req, res) => {
-    res.redirect('/home');
+    if (req.session.userId) {
+        return res.redirect('/home');
+    }
+    res.redirect('/login');
 });
 
 // Home route
