@@ -8,6 +8,36 @@ const morgan = require('morgan');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Function to initialize the database
+async function initializeDatabase() {
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            username VARCHAR(255) UNIQUE NOT NULL,
+            password VARCHAR(255) NOT NULL
+        );
+    `);
+
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS tasks (
+            id SERIAL PRIMARY KEY,
+            user_id INT REFERENCES users(id) ON DELETE CASCADE,
+            task TEXT NOT NULL
+        );
+    `);
+
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS completed_tasks (
+            id SERIAL PRIMARY KEY,
+            user_id INT REFERENCES users(id) ON DELETE CASCADE,
+            task TEXT NOT NULL
+        );
+    `);
+}
+
+// Call the function to initialize the database
+initializeDatabase().catch(err => console.error('Error initializing database:', err));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
