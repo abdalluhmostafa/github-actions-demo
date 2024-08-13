@@ -56,20 +56,9 @@ function isAuthenticated(req, res, next) {
     res.redirect('/login');
 }
 
-// Redirect root to /home
-app.get('/', (req, res) => {
-    if (req.session.userId) {
-        return res.redirect('/home');
-    }
-    res.redirect('/login');
-});
-
-// Home route
-app.get('/home', isAuthenticated, async (req, res) => {
-    const userId = req.session.userId;
-    const tasks = await pool.query('SELECT * FROM tasks WHERE user_id = $1', [userId]);
-    const completedTasks = await pool.query('SELECT * FROM completed_tasks WHERE user_id = $1', [userId]);
-    res.render("index", { task: tasks.rows, complete: completedTasks.rows });
+// Home page route
+app.get('/home', (req, res) => {
+    res.render('home');
 });
 
 // Login route
@@ -87,7 +76,7 @@ app.post('/login', async (req, res) => {
 
         if (match) {
             req.session.userId = user.id;
-            return res.redirect('/home');
+            return res.redirect('/');
         }
     }
     res.redirect('/login');
@@ -106,11 +95,18 @@ app.post('/signup', async (req, res) => {
 });
 
 // Middleware to ensure only logged-in users can access the todo list
+app.get("/", isAuthenticated, async (req, res) => {
+    const userId = req.session.userId;
+    const tasks = await pool.query('SELECT * FROM tasks WHERE user_id = $1', [userId]);
+    const completedTasks = await pool.query('SELECT * FROM completed_tasks WHERE user_id = $1', [userId]);
+    res.render("index", { task: tasks.rows, complete: completedTasks.rows });
+});
+
 app.post("/addtask", isAuthenticated, async (req, res) => {
     const userId = req.session.userId;
     const newTask = req.body.newtask;
     await pool.query('INSERT INTO tasks (user_id, task) VALUES ($1, $2)', [userId, newTask]);
-    res.redirect("/home");
+    res.redirect("/");
 });
 
 app.post("/removetask", isAuthenticated, async (req, res) => {
@@ -126,7 +122,7 @@ app.post("/removetask", isAuthenticated, async (req, res) => {
             await pool.query('INSERT INTO completed_tasks (user_id, task) VALUES ($1, $2)', [userId, completeTask[i]]);
         }
     }
-    res.redirect("/home");
+    res.redirect("/");
 });
 
 // Logout route
