@@ -56,6 +56,11 @@ function isAuthenticated(req, res, next) {
     res.redirect('/login');
 }
 
+// Home page route
+app.get('/home', (req, res) => {
+    res.render('home');
+});
+
 // Login route
 app.get('/login', (req, res) => {
     res.render('login');
